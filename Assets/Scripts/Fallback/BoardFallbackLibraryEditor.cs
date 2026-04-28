@@ -41,21 +41,38 @@ public class BoardFallbackLibraryEditor : Editor
 
         int requiredPairCount = GetRequiredPairCountByStage(stage);
         BoardFallbackBaker baker = new BoardFallbackBaker(rows, columns);
+        List<IntBoardData> existingBoards = GetExistingBoards(library, requiredPairCount);
+        List<IntBoardData> bakedBoards = baker.BakeBoards(stage, requiredPairCount, targetCount, maxAttempts, existingBoards);
 
-        List<IntBoardData> bakedBoards = baker.BakeBoards(stage, requiredPairCount, targetCount, maxAttempts);
-
-        if (requiredPairCount == 3)
-            library.pair3Boards = bakedBoards;
-        else if (requiredPairCount == 2)
-            library.pair2Boards = bakedBoards;
-        else
-            library.pair1Boards = bakedBoards;
+        SetBoards(library, requiredPairCount, bakedBoards);
 
         EditorUtility.SetDirty(library);
         AssetDatabase.SaveAssets();
 
         Debug.Log($"Bake xong ở stage={stage}. ");
     }
+
+    private List<IntBoardData> GetExistingBoards(BoardFallbackLibrary library, int requiredPairCount)
+    {
+        if (requiredPairCount == 3)
+            return library.pair3Boards;
+
+        if (requiredPairCount == 2)
+            return library.pair2Boards;
+
+        return library.pair1Boards;
+    }
+
+    private void SetBoards(BoardFallbackLibrary library, int requiredPairCount, List<IntBoardData> boards)
+    {
+        if (requiredPairCount == 3)
+            library.pair3Boards = boards;
+        else if (requiredPairCount == 2)
+            library.pair2Boards = boards;
+        else
+            library.pair1Boards = boards;
+    }
+
 
     private int GetRequiredPairCountByStage(int stage)
     {

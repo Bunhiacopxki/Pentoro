@@ -103,7 +103,17 @@ public static class BoardRules
             return true;
         }
 
-        return false;
+        // Nếu không có num nào ở giữa
+        int from = Mathf.Min(indexA, indexB) + 1;
+        int to = Mathf.Max(indexA, indexB);
+
+        for (int i = from; i < to; i++)
+        {
+            if (isBlocked(i))
+                return false;
+        }
+
+        return true;
     }
 
     /// <summary>

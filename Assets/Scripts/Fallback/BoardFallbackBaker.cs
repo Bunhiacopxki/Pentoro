@@ -18,10 +18,34 @@ public class BoardFallbackBaker
         _boardValidator = new BoardValidator(_columns);
     }
 
-    public List<IntBoardData> BakeBoards(int stage, int requiredPairCount, int targetCount, int maxAttempts)
+    public List<IntBoardData> BakeBoards(int stage, int requiredPairCount, int targetCount, int maxAttempts, List<IntBoardData> existingBoards = null)
     {
         List<IntBoardData> result = new List<IntBoardData>();
         HashSet<string> signatures = new HashSet<string>();
+
+        if (existingBoards != null)
+        {
+            for (int i = 0; i < existingBoards.Count; i++)
+            {
+                IntBoardData board = existingBoards[i];
+
+                if (board == null || board.values == null)
+                    continue;
+
+                string oldSignature = string.Join(",", board.values);
+
+                if (signatures.Contains(oldSignature))
+                    continue;
+
+                signatures.Add(oldSignature);
+
+                result.Add(new IntBoardData
+                {
+                    name = board.name,
+                    values = CloneArray(board.values)
+                });
+            }
+        }
 
         int attempts = 0;
 

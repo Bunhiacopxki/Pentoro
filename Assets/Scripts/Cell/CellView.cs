@@ -289,6 +289,32 @@ public class CellView : MonoBehaviour
     }
 
     /// <summary>
+    /// Lấy tọa độ world center của cell bên trái.
+    /// </summary>
+    public Vector3 GetWorldLeftCenter()
+    {
+        RectTransform rect = transform as RectTransform;
+        Vector3[] corners = new Vector3[4];
+        rect.GetWorldCorners(corners);
+
+        // corners[0] = bottom-left, corners[1] = top-left
+        return (corners[0] + corners[1]) * 0.5f;
+    }
+
+    /// <summary>
+    /// Lấy tọa độ world center của cell bên phải.
+    /// </summary>
+    public Vector3 GetWorldRightCenter()
+    {
+        RectTransform rect = transform as RectTransform;
+        Vector3[] corners = new Vector3[4];
+        rect.GetWorldCorners(corners);
+
+        // corners[2] = top-right, corners[3] = bottom-right
+        return (corners[2] + corners[3]) * 0.5f;
+    }
+
+    /// <summary>
     /// Chạy animation preview circle khi thêm số.
     /// </summary>
     public IEnumerator PlayAddPreviewCircle()
