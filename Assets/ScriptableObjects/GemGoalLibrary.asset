@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dedd41bf30bb7d14f8ace76d41e3970a, type: 3}
+  m_Name: GemGoalLibrary
+  m_EditorClassIdentifier: 
+  stages:
+  - stage: 1
+    goals:
+    - gemType: 1
+      targetCount: 1
+    - gemType: 2
+      targetCount: 1
+    - gemType: 3
+      targetCount: 1
+  - stage: 2
+    goals:
+    - gemType: 1
+      targetCount: 1
+    - gemType: 2
+      targetCount: 2
+    - gemType: 3
+      targetCount: 3
+  - stage: 3
+    goals:
+    - gemType: 1
+      targetCount: 3
+    - gemType: 2
+      targetCount: 3
+    - gemType: 3
+      targetCount: 3
