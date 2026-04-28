@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Điều khiển animation reveal cell: lần lượt hiển thị các cell với khoảng cách thời gian.
+/// </summary>
 public class BoardRevealController
 {
-    private readonly MonoBehaviour _runner;
-    private readonly List<CellView> _views;
-    private readonly float _revealInterval;
+    private readonly MonoBehaviour _runner;      // Đối tượng để chạy coroutine
+    private readonly List<CellView> _views;      // Danh sách view
+    private readonly float _revealInterval;      // Khoảng cách thời gian giữa các lần reveal
 
     private Coroutine _revealCoroutine;
 
@@ -23,6 +26,9 @@ public class BoardRevealController
         _revealInterval = revealInterval;
     }
 
+    /// <summary>
+    /// Dừng reveal đang chạy
+    /// </summary>
     public void Stop()
     {
         if (_revealCoroutine != null)
@@ -34,12 +40,18 @@ public class BoardRevealController
         IsRevealing = false;
     }
 
+    /// <summary>
+    /// Bắt đầu reveal các cell theo danh sách index.
+    /// </summary>
     public void Reveal(IReadOnlyList<int> indexes)
     {
         Stop();
         _revealCoroutine = _runner.StartCoroutine(CoRevealViews(indexes));
     }
 
+    /// <summary>
+    /// Lần lượt active và chạy animation cho từng cell.
+    /// </summary>
     private IEnumerator CoRevealViews(IReadOnlyList<int> indexes)
     {
         IsRevealing = true;

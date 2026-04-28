@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Điền giá trị số vào các cell trống trên bảng.
+/// Đảm bảo không tạo ra các cặp ghép không mong muốn.
+/// Sử dụng thuật toán backtracking để tìm cách điền hợp lệ.
+/// </summary>
 public class BoardFiller
 {
     private readonly int _columns;
@@ -111,6 +116,10 @@ public class BoardFiller
         return order;
     }
 
+    /// <summary>
+    /// Điền giá trị vào tất cả các cell trống trong context.
+    /// Thứ tự ưu tiên: forced pairs trước, sau đó các ô còn lại.
+    /// </summary>
     public bool Fill(BoardGenerationContext context)
     {
         if (!AssignForcedPairs(context))
@@ -120,6 +129,10 @@ public class BoardFiller
         return FillRemainingCells(context, fillOrder, 0);
     }
 
+    /// <summary>
+    /// Hàm đệ quy điền các cell còn lại theo thứ tự fillOrder.
+    /// Sử dụng backtracking: thử từng candidate, nếu không được thì quay lại.
+    /// </summary>
     private bool FillRemainingCells(BoardGenerationContext context, List<int> order, int orderIndex)
     {
         if (orderIndex >= order.Count)
@@ -145,6 +158,10 @@ public class BoardFiller
         return false;
     }
 
+    /// <summary>
+    /// Xây dựng danh sách các số có thể điền vào một ô mà không tạo cặp không mong muốn.
+    /// Loại bỏ các số đã hết số lượng hoặc tạo ra các cặp không mong muốn
+    /// </summary>
     private List<int> BuildSafeCandidates(BoardGenerationContext context, int index)
     {
         List<int> result = new List<int>();

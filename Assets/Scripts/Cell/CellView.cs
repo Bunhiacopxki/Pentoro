@@ -3,19 +3,22 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// View của một cell: hiển thị số, xử lý click, animation, hiển thị gem.
+/// </summary>
 public class CellView : MonoBehaviour
 {
     [Header("UI")]
-    [SerializeField] private Button button;
-    [SerializeField] private Image background;
-    [SerializeField] private Image valueImage;
+    [SerializeField] private Button button;              // Button để click
+    [SerializeField] private Image background;           // Ảnh nền để chạy anim
+    [SerializeField] private Image valueImage;           // Ảnh hiển thị số
 
     [Header("Data")]
-    [SerializeField] private NumberSpriteLibrary numberSpriteLibrary;
+    [SerializeField] private NumberSpriteLibrary numberSpriteLibrary; // Thư viện sprite số
 
     [Header("Animation")]
-    [SerializeField] private CellRemoveAnim removeAnim;
-    [SerializeField] private CellMoveAnim moveAnim;
+    [SerializeField] private CellRemoveAnim removeAnim; // Animation khi xóa
+    [SerializeField] private CellMoveAnim moveAnim;     // Animation di chuyển
 
     [Header("Background Colors")]
     [SerializeField] private Color normalBackgroundColor = Color.white;
@@ -26,14 +29,14 @@ public class CellView : MonoBehaviour
     [SerializeField] private Color removedTextColor;
 
     [Header("Gem")]
-    [SerializeField] private Image gemImage;
+    [SerializeField] private Image gemImage;            // Ảnh gem hiển thị trên cell
     [SerializeField] private GemSpriteLibrary gemSpriteLibrary;
 
     [Header("Add Number Preview")]
-    [SerializeField] private Image _circleHighlight;
-    [SerializeField] private float _drawTime = 0.25f;
-    [SerializeField] private float _holdTime = 0.15f;
-    [SerializeField] private float _fadeTime = 0.12f;
+    [SerializeField] private Image _circleHighlight;    // Animation preview khi thêm số
+    [SerializeField] private float _drawTime = 0.25f;   // Thời gian vẽ circle
+    [SerializeField] private float _holdTime = 0.15f;   // Thời gian giữ circle
+    [SerializeField] private float _fadeTime = 0.12f;   // Thời gian fade out
 
     private int _index;
     private InputHandler _inputHandler;
@@ -67,6 +70,9 @@ public class CellView : MonoBehaviour
         HideAddPreviewCircleInstant();
     }
 
+    /// <summary>
+    /// Ẩn preview circle ngay lập tức.
+    /// </summary>
     public void HideAddPreviewCircleInstant()
     {
         if (_circleHighlight == null) return;
@@ -79,6 +85,9 @@ public class CellView : MonoBehaviour
         _circleHighlight.color = c;
     }
 
+    /// <summary>
+    /// Setup view với dữ liệu cell.
+    /// </summary>
     public void Setup(CellData data, int index, InputHandler inputHandler)
     {
         _index = index;
@@ -101,12 +110,18 @@ public class CellView : MonoBehaviour
         RefreshRemoveStateInstant();
     }
 
+    /// <summary>
+    /// Xử lý khi click vào cell
+    /// </summary>
     private void OnClick()
     {
         if (_inputHandler == null) return;
         _inputHandler.OnCellClicked(_index);
     }
 
+    /// <summary>
+    /// Set trạng thái selected cho cell.
+    /// </summary>
     public void SetSelected(bool selected)
     {
         if (_isRemoved) return;
@@ -120,12 +135,18 @@ public class CellView : MonoBehaviour
         else RefreshVisual();
     }
 
+    /// <summary>
+    /// Animation thu nhỏ khi bị xóa.
+    /// </summary>
     public void ScaleDownAnim()
     {
         if (removeAnim != null)
             removeAnim.PlayRemove();
     }
 
+    /// <summary>
+    /// Animation phóng to khi được chọn.
+    /// </summary>
     public IEnumerator ScaleUpAnim()
     {
         if (removeAnim != null)
@@ -135,6 +156,9 @@ public class CellView : MonoBehaviour
         RefreshVisual();
     }
 
+    /// <summary>
+    /// Xử lý khi cell bị xóa
+    /// </summary>
     private void HandleCellRemoved(int removedIndex)
     {
         if (removedIndex != _index) return;
@@ -154,6 +178,9 @@ public class CellView : MonoBehaviour
         ScaleDownAnim();
     }
 
+    /// <summary>
+    /// Cập nhật sprite hiển thị số.
+    /// </summary>
     private void RefreshValueSprite(int value)
     {
         if (valueImage == null || numberSpriteLibrary == null)
@@ -164,6 +191,9 @@ public class CellView : MonoBehaviour
         valueImage.enabled = sprite != null;
     }
 
+    /// <summary>
+    /// Cập nhật visual dựa trên trạng thái
+    /// </summary>
     private void RefreshVisual()
     {
         if (background != null)
@@ -199,6 +229,9 @@ public class CellView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Cập nhật trạng thái removed
+    /// </summary>
     private void RefreshRemoveStateInstant()
     {
         if (removeAnim == null) return;
@@ -207,6 +240,9 @@ public class CellView : MonoBehaviour
             removeAnim.SetHiddenInstant();
     }
 
+    /// <summary>
+    /// Cập nhật hiển thị gem.
+    /// </summary>
     private void RefreshGem(CellData data)
     {
         if (gemImage == null) return;
@@ -221,6 +257,9 @@ public class CellView : MonoBehaviour
         gemImage.sprite = gemSpriteLibrary.GetSprite(data.GemType);
     }
 
+    /// <summary>
+    /// Set vị trí ngay lập tức.
+    /// </summary>
     public void SetPositionInstant(Vector2 anchoredPosition)
     {
         if (moveAnim != null)
@@ -229,6 +268,9 @@ public class CellView : MonoBehaviour
             RectTransform.anchoredPosition = anchoredPosition;
     }
 
+    /// <summary>
+    /// Di chuyển đến vị trí mới với animation.
+    /// </summary>
     public void PlayMoveTo(Vector2 anchoredPosition, float duration)
     {
         if (moveAnim != null)
@@ -237,12 +279,18 @@ public class CellView : MonoBehaviour
             RectTransform.anchoredPosition = anchoredPosition;
     }
 
+    /// <summary>
+    /// Lấy tọa độ world center của cell.
+    /// </summary>
     public Vector3 GetWorldCenter()
     {
         RectTransform rt = transform as RectTransform;
         return rt.TransformPoint(rt.rect.center);
     }
 
+    /// <summary>
+    /// Chạy animation preview circle khi thêm số.
+    /// </summary>
     public IEnumerator PlayAddPreviewCircle()
     {
         if (_circleHighlight == null)

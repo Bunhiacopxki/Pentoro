@@ -4,10 +4,18 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Class GemMoveSolverRunner là menu editor để chạy gem solver từ Unity.
+/// Đọc input từ file input.txt, chạy giải thuật và ghi kết quả ra output.txt.
+/// </summary>
 public static class GemMoveSolverRunner
 {
     private const int Columns = 9;
 
+    /// <summary>
+    /// Menu item để chạy solver từ Unity Editor (Tools > Gem Solver > Run Solver).
+    /// Đọc input.txt trong thư mục Assets, giải bài toán, ghi kết quả ra output.txt.
+    /// </summary>
     [MenuItem("Tools/Gem Solver/Run Solver")]
     public static void RunSolver()
     {
@@ -38,6 +46,11 @@ public static class GemMoveSolverRunner
         AssetDatabase.Refresh();
     }
 
+    /// <summary>
+    /// Ghi kết quả giải thuật ra file output.
+    /// Nếu không có giải pháp, ghi "NO_SOLUTION".
+    /// Mỗi giải pháp ghi trên một dòng, các cặp ngăn cách bằng dấu "|".
+    /// </summary>
     private static void WriteOutput(string outputPath, GemSolveResult result)
     {
         if (result.Status == GemSolveStatus.NoSolution)

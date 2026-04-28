@@ -1,7 +1,7 @@
 public class PairSlot
 {
-    public readonly int IndexA;
-    public readonly int IndexB;
+    public readonly int IndexA;  // Index của cell thứ nhất
+    public readonly int IndexB;  // Index của cell thứ hai
 
     public PairSlot(int indexA, int indexB)
     {

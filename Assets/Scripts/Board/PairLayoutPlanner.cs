@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Tạo danh sách các vị trí cặp có thể ghép trên bảng.
+/// </summary>
 public class PairLayoutPlanner
 {
     private readonly int _columns;
@@ -12,6 +15,10 @@ public class PairLayoutPlanner
         _rows = rows;
     }
 
+    /// <summary>
+    /// Tạo danh sách các PairSlot đủ số lượng yêu cầu.
+    /// Mỗi cell chỉ được dùng trong một cặp duy nhất.
+    /// </summary>
     public List<PairSlot> CreatePairSlots(int targetPairCount, int totalCells)
     {
         List<PairSlot> allCandidates = BuildPairSlots(totalCells);
@@ -36,6 +43,10 @@ public class PairLayoutPlanner
         return selected;
     }
 
+    /// <summary>
+    /// Xây dựng tất cả các cặp tiềm năng từ các ô lân cận.
+    /// Với mỗi ô, tạo cặp với 4 ô lân cận: phải, dưới, chéo dưới-phải, chéo dưới-trái.
+    /// </summary>
     private List<PairSlot> BuildPairSlots(int totalCells)
     {
         List<PairSlot> result = new List<PairSlot>();

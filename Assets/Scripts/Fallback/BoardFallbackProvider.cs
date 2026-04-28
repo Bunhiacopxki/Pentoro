@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
+/// <summary>
+/// Cung cấp các mảng giá trị fallback (board có sẵn) dựa trên các yêu cầu.
+/// </summary>
 public class BoardFallbackProvider
 {
     private readonly BoardFallbackLibrary _library;
@@ -10,6 +13,9 @@ public class BoardFallbackProvider
         _library = library;
     }
 
+    /// <summary>
+    /// Lấy một mảng giá trị ngẫu nhiên từ pool fallback tương ứng với số cặp yêu cầu.
+    /// </summary>
     public int[] GetRandomFallback(int requiredPairCount)
     {
         List<IntBoardData> pool = GetPool(requiredPairCount);

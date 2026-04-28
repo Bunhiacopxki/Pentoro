@@ -70,7 +70,7 @@ PlayerSettings:
   androidBlitType: 0
   androidResizableWindow: 0
   androidDefaultWindowWidth: 1080
-  androidDefaultWindowHeight: 2340
+  androidDefaultWindowHeight: 1920
   androidMinimumWindowWidth: 300
   androidMinimumWindowHeight: 400
   androidFullscreenMode: 3

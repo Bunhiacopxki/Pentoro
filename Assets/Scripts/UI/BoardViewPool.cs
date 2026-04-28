@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Quản lý pool các CellView: tạo, tái sử dụng, cập nhật vị trí và trạng thái.
+/// </summary>
 public class BoardViewPool
 {
     private readonly List<CellView> _views;
@@ -24,6 +27,9 @@ public class BoardViewPool
         _layout = layout;
     }
 
+    /// <summary>
+    /// Đảm bảo số lượng view đủ cho targetCount, tạo thêm nếu cần.
+    /// </summary>
     public void EnsureViewPoolSize(int targetCount)
     {
         while (_views.Count < targetCount)
@@ -40,6 +46,9 @@ public class BoardViewPool
         }
     }
 
+    /// <summary>
+    /// Chuẩn bị view cho reveal
+    /// </summary>
     public void PrepareRevealView(IReadOnlyList<CellData> cells)
     {
         EnsureViewPoolSize(cells.Count);
@@ -59,6 +68,9 @@ public class BoardViewPool
         }
     }
 
+    /// <summary>
+    /// Xây dựng lại view từ danh sách cells
+    /// </summary>
     public void RebuildView(IReadOnlyList<CellData> cells)
     {
         EnsureViewPoolSize(cells.Count);
@@ -75,6 +87,9 @@ public class BoardViewPool
         }
     }
 
+    /// <summary>
+    /// Chuẩn bị các view mới cho reveal.
+    /// </summary>
     public void PrepareNewViews(IReadOnlyList<CellData> cells, int startIndex)
     {
         EnsureViewPoolSize(cells.Count);
@@ -86,6 +101,9 @@ public class BoardViewPool
         }
     }
 
+    /// <summary>
+    /// Setup view với dữ liệu cell tương ứng.
+    /// </summary>
     public void SetupSingleView(CellData cell, int index)
     {
         _views[index].Setup(cell, index, _inputHandler);

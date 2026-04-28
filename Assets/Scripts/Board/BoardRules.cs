@@ -1,19 +1,33 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// Các quy tắc và hàm tiện ích cho board game: kiểm tra match, chuyển đổi index ↔ row/col, kiểm tra đường đi.
+/// </summary>
 public static class BoardRules
 {
+    /// <summary>
+    /// Kiểm tra hai giá trị có match được với nhau không.
+    /// Match khi: cùng giá trị, hoặc tổng bằng 10 (ví dụ: 3+7, 4+6).
+    /// </summary>
     public static bool IsMatchValue(int a, int b)
     {
         return a == b || (a + b == 10);
     }
 
+    /// <summary>
+    /// Chuyển đổi index tuyến tính sang tọa độ hàng/cột.
+    /// </summary>
     public static void IndexToRowCol(int index, int columns, out int row, out int col)
     {
         row = index / columns;
         col = index % columns;
     }
 
+    /// <summary>
+    /// Chuyển đổi tọa độ hàng/cột sang index tuyến tính.
+    /// Trả về -1 nếu tọa độ không hợp lệ.
+    /// </summary>
     public static int RowColToIndex(int row, int col, int columns, int cellCount)
     {
         if (row < 0 || col < 0 || col >= columns) return -1;
@@ -24,6 +38,9 @@ public static class BoardRules
         return index;
     }
 
+    /// <summary>
+    /// Kiểm tra xem có đường đi giữa hai cell mà không bị chắn.
+    /// </summary>
     public static bool IsPathClear(
         int indexA,
         int indexB,
@@ -38,6 +55,7 @@ public static class BoardRules
         int dRow = rowB - rowA;
         int dCol = colB - colA;
 
+        // Cùng hàng → kiểm tra ngang
         if (rowA == rowB)
         {
             int step = colA < colB ? 1 : -1;
@@ -50,6 +68,7 @@ public static class BoardRules
             return true;
         }
 
+        // Cùng cột → kiểm tra dọc
         if (colA == colB)
         {
             int step = rowA < rowB ? 1 : -1;
@@ -62,6 +81,7 @@ public static class BoardRules
             return true;
         }
 
+        // Đường chéo (hàng và cột cách nhau bằng nhau)
         if (Mathf.Abs(dRow) == Mathf.Abs(dCol))
         {
             int stepRow = dRow > 0 ? 1 : -1;
@@ -86,6 +106,10 @@ public static class BoardRules
         return false;
     }
 
+    /// <summary>
+    /// Kiểm tra xem board còn cặp match nào không.
+    /// Dùng để xác định điều kiện thua.
+    /// </summary>
     public static bool HasAnyMatch(System.Collections.Generic.IReadOnlyList<CellData> cells, int columns)
     {
         if (cells == null || cells.Count <= 1) return false;

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Tính toán vị trí anchor cho các cell view dựa trên kích thước board parent.
+/// </summary>
 public class BoardGridLayout
 {
     private readonly RectTransform _boardParent;
@@ -18,6 +21,9 @@ public class BoardGridLayout
 
     public Vector2 CellSize => new Vector2(CellWidth, CellHeight);
 
+    /// <summary>
+    /// Lấy vị trí anchor cho cell ở vị trí index.
+    /// </summary>
     public Vector2 GetAnchoredPositionByIndex(int index)
     {
         int row = index / _columns;
@@ -26,6 +32,7 @@ public class BoardGridLayout
         float boardWidth = _boardParent.rect.width;
         float boardHeight = _boardParent.rect.height;
 
+        // Tính vị trí bắt đầu (góc trên trái của cell đầu tiên)
         float startX = -boardWidth * 0.5f + CellWidth * 0.5f;
         float startY = boardHeight * 0.5f - CellHeight * 0.5f;
 

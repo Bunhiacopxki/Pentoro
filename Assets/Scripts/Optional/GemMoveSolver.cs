@@ -2,6 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Class GemMoveSolver tìm các cách ghép cặp gem hợp lệ trên bảng.
+/// Input: chuỗi số với gem 5 là gem cần thu thập.
+/// Output: danh sách các bước đi để ghép cặp thành công.
+/// Sử dụng thuật toán DFS với giới hạn độ sâu và memoization.
+/// </summary>
 public class GemMoveSolver
 {
     private const int Columns = 9;
@@ -76,6 +82,10 @@ public class GemMoveSolver
         );
     }
 
+    /// <summary>
+    /// Khởi tạo trạng thái ban đầu từ chuỗi input.
+    /// Đếm tổng số gem (5) và tính số gem cần thu.
+    /// </summary>
     private void Init(string input)
     {
         _values = input
@@ -109,6 +119,11 @@ public class GemMoveSolver
             _removed[i] = false;
     }
 
+    /// <summary>
+    /// Thuật toán DFS với giới hạn độ sâu.
+    /// Tìm tất cả các cặp ghép hợp lệ có thể thực hiện trong giới hạn bước.
+    /// Sử dụng memoization để tránh tính lại trạng thái đã xử lý.
+    /// </summary>
     private void DepthLimitedDFS()
     {
         int collectedGemCount = CountCollectedGems();
@@ -167,6 +182,9 @@ public class GemMoveSolver
         }
     }
 
+    /// <summary>
+    /// Lấy tất cả các nước đi hợp lệ tại trạng thái hiện tại.
+    /// </summary>
     private List<MatchMove> GetAllLegalMoves()
     {
         List<MatchMove> result = new List<MatchMove>();
@@ -202,6 +220,10 @@ public class GemMoveSolver
         return result;
     }
 
+    /// <summary>
+    /// Lưu giải pháp hiện tại vào danh sách nếu chưa tồn tại.
+    /// Chuẩn hóa key để tránh trùng lặp giải pháp.
+    /// </summary>
     private void SaveSolution()
     {
         List<MatchMove> solution = new List<MatchMove>(_currentPath);
@@ -217,6 +239,9 @@ public class GemMoveSolver
         _solutionKeys.Add(key);
     }
 
+    /// <summary>
+    /// Tạo key chuẩn hóa cho giải pháp.
+    /// </summary>
     private string CreateCanonicalSolutionKey(List<MatchMove> solution)
     {
         List<string> moveKeys = new List<string>();
@@ -234,6 +259,9 @@ public class GemMoveSolver
         return string.Join("|", moveKeys);
     }
 
+    /// <summary>
+    /// Tạo key cho trạng thái hiện tại.
+    /// </summary>
     private string CreateStateKey()
     {
         char[] chars = new char[_removed.Length];
@@ -246,6 +274,9 @@ public class GemMoveSolver
         return new string(chars);
     }
 
+    /// <summary>
+    /// Thực hiện một nước đi: đánh dấu hai ô là đã loại bỏ và thêm vào path.
+    /// </summary>
     private void ApplyMove(MatchMove move)
     {
         _removed[move.A] = true;
@@ -254,6 +285,9 @@ public class GemMoveSolver
         _currentPath.Add(move);
     }
 
+    /// <summary>
+    /// Hoàn tác nước đi: bỏ đánh dấu và khôi phục trạng thái trước đó.
+    /// </summary>
     private void UndoMove(MatchMove move)
     {
         _currentPath.RemoveAt(_currentPath.Count - 1);
@@ -262,6 +296,9 @@ public class GemMoveSolver
         _removed[move.B] = false;
     }
 
+    /// <summary>
+    /// Đếm số gem đã được thu thập.
+    /// </summary>
     private int CountCollectedGems()
     {
         int count = 0;
@@ -275,6 +312,9 @@ public class GemMoveSolver
         return count;
     }
 
+    /// <summary>
+    /// Tính điểm cho một nước đi: ưu tiên ghép gem, ưu tiên khoảng cách gần.
+    /// </summary>
     private int GetMoveScore(MatchMove move)
     {
         int score = 0;

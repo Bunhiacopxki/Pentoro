@@ -1,5 +1,9 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Lưu trữ kết quả của bài toán thu thập gem.
+/// Chứa trạng thái, danh sách các giải pháp, và các thông số thống kê.
+/// </summary>
 public class GemSolveResult
 {
     public GemSolveStatus Status;

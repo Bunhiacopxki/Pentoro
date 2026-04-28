@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Class BoardValidator kiểm tra tính hợp lệ của bảng game sau khi điền số.
+/// </summary>
 public class BoardValidator
 {
     private readonly int _columns;
@@ -10,6 +13,12 @@ public class BoardValidator
         _columns = columns;
     }
 
+    /// <summary>
+    /// Kiểm tra toàn bộ bảng với 3 điều kiện:
+    /// 1. Không có ô trống (giá trị 0)
+    /// 2. Chứa đủ các số từ 1 đến 9
+    /// 3. Có đủ số cặp ghép độc lập tối đa theo yêu cầu
+    /// </summary>
     public bool Validate(BoardGenerationContext context, int requiredPairCount)
     {
         if (!HasNoEmptyCells(context.Values))
@@ -35,6 +44,9 @@ public class BoardValidator
         return true;
     }
 
+    /// <summary>
+    /// Kiểm tra xem tất cả các số từ 1 đến 9 có xuất hiện trong mảng giá trị không.
+    /// </summary>
     private bool ContainsAllDigits(int[] values)
     {
         bool[] seen = new bool[10];
@@ -55,6 +67,9 @@ public class BoardValidator
         return true;
     }
 
+    /// <summary>
+    /// Kiểm tra xem có cell nào còn giá trị 0 không.
+    /// </summary>
     private bool HasNoEmptyCells(int[] values)
     {
         for (int i = 0; i < values.Length; i++)
@@ -66,6 +81,9 @@ public class BoardValidator
         return true;
     }
 
+    /// <summary>
+    /// Tìm số cặp ghép độc lập tối đa có thể tạo từ bảng.
+    /// </summary>
     private int CountMaximumIndependentPairs(int[] values)
     {
         List<PairSlot> allPairs = CollectAllPairs(values);
